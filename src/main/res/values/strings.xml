@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">road safety</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="marker_choice">
+        <item>Bump</item>
+        <item>Pot Hole</item>
+    </string-array>
+</resources>

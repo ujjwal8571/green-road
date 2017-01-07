@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/micon1"
+        android:id="@+id/micon"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Broken Road"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/text1"
+        android:layout_below="@+id/micon"
+        android:layout_alignParentStart="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:background="@color/colorPrimaryDark"
+        android:autoText="false"
+        android:textColor="@color/cast_expanded_controller_text_color" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:srcCompat="@drawable/smarker"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/smarker"
+        android:layout_alignBottom="@+id/text1"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Unmarked Bump"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/smarker"
+        android:layout_marginStart="35dp"
+        android:id="@+id/text2"
+        android:textColor="@color/cast_expanded_controller_text_color"
+        android:layout_alignTop="@+id/smarker"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+    <Button
+        android:text="Like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp"
+        android:id="@+id/likeButton"
+        android:background="#6669e0b1"
+        android:layout_below="@+id/text1" />
+
+    <Button
+        android:text="Fake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/likeButton"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/fakeButton"
+        android:background="#6669e0b1"
+        android:layout_alignTop="@+id/likeButton" />
+
+    <Button
+        android:text="Share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/fakeButton"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/shareButton"
+        android:background="#6669e0b1" />
+
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:srcCompat="@drawable/like"
+        android:id="@+id/like"
+        android:layout_above="@+id/fakeButton"
+        android:layout_toEndOf="@+id/smarker" />
+
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="35dp"
+        app:srcCompat="@drawable/fake"
+        android:layout_below="@+id/text1"
+        android:id="@+id/fake"
+        android:layout_toEndOf="@+id/text2" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:srcCompat="@drawable/share"
+        android:layout_below="@+id/text1"
+        android:layout_alignStart="@+id/shareButton"
+        android:layout_marginStart="27dp"
+        android:id="@+id/share" />
+
+</RelativeLayout>
