@@ -1,7 +1,9 @@
 package com.example.android.roadsafety;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
@@ -21,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 import com.google.android.gms.appindexing.Action;
@@ -31,6 +34,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
@@ -39,6 +43,7 @@ import com.google.android.gms.location.LocationServices;
 
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Marker;
@@ -53,8 +58,7 @@ public class MainActivity extends AppCompatActivity implements
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener,
-        ResultCallback<LocationSettingsResult> {
+        LocationListener{
 
     private GoogleMap mMap;
     boolean mapReady = false;
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements
     protected LocationRequest mLocationRequest;
     protected LocationSettingsRequest mLocationSettingsRequest;
     protected Boolean mRequestingLocationUpdates;
+    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     public Location mCurrentLocation;
     public static final int REQUEST_PERMISSION_LOCATION = 10;
     int RQS_GooglePlayServices = 0;
@@ -153,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements
         mapFragment.getMapAsync(this);
 
 
+
         //step 1
         buildGoogleApiClient();
 
@@ -167,6 +173,64 @@ public class MainActivity extends AppCompatActivity implements
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
+
+//
+//    protected void checkLocationSettings() {
+//        Log.i(TAG, "checklocationsettings");
+//        PendingResult<LocationSettingsResult> result =
+//                LocationServices.SettingsApi.checkLocationSettings(
+//                        mGoogleApiClient,
+//                        mLocationSettingsRequest
+//                );
+//        result.setResultCallback(this);
+//    }
+//
+//    @Override
+//    public void onResult(LocationSettingsResult locationSettingsResult) {
+//
+//        Log.i(TAG,"onresult");
+//        final Status status = locationSettingsResult.getStatus();
+//        switch (status.getStatusCode()) {
+//            case LocationSettingsStatusCodes.SUCCESS:
+//
+//                startLocationUpdates();
+//                break;
+//            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+//
+//
+//                try {
+//
+//                    status.startResolutionForResult(MainActivity.this, REQUEST_CHECK_SETTINGS);
+//                } catch (IntentSender.SendIntentException e) {
+//
+//                }
+//                break;
+//            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+//
+//                break;
+//        }
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        Log.i(TAG,"onactivityresult");
+//        switch (requestCode) {
+//            // Check for the integer request code originally supplied to startResolutionForResult().
+//            case REQUEST_CHECK_SETTINGS:
+//                switch (resultCode) {
+//                    case Activity.RESULT_OK:
+//                        Log.i(TAG, "User agreed to make required location settings changes.");
+//                        startLocationUpdates();
+//                        break;
+//                    case Activity.RESULT_CANCELED:
+//                        Log.i(TAG, "User chose not to make required location settings changes.");
+//                        break;
+//                }
+//                break;
+//        }
+//    }
+//
+
 
 
     protected void createLocationRequest() {
@@ -396,10 +460,10 @@ public class MainActivity extends AppCompatActivity implements
         Log.i(TAG, "onconnectionfailed");
     }
 
-    @Override
-    public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
-        Log.i(TAG, "onresult");
-    }
+//    @Override
+//    public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
+//        Log.i(TAG, "onresult");
+//    }
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
