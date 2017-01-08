@@ -58,7 +58,8 @@ public class MainActivity extends AppCompatActivity implements
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener{
+        LocationListener,
+        ResultCallback<LocationSettingsResult>{
 
     private GoogleMap mMap;
     boolean mapReady = false;
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements
     protected Boolean mRequestingLocationUpdates;
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     public Location mCurrentLocation;
+    public LatLng currentMarker;
+    public Marker myCurrentLocationMarker;
     public static final int REQUEST_PERMISSION_LOCATION = 10;
     int RQS_GooglePlayServices = 0;
     /**
@@ -168,68 +171,87 @@ public class MainActivity extends AppCompatActivity implements
         //step 3
         buildLocationSettingsRequest();
 
+        checkLocationSettings();
+
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-//
-//    protected void checkLocationSettings() {
-//        Log.i(TAG, "checklocationsettings");
-//        PendingResult<LocationSettingsResult> result =
-//                LocationServices.SettingsApi.checkLocationSettings(
-//                        mGoogleApiClient,
-//                        mLocationSettingsRequest
-//                );
-//        result.setResultCallback(this);
-//    }
-//
-//    @Override
-//    public void onResult(LocationSettingsResult locationSettingsResult) {
-//
-//        Log.i(TAG,"onresult");
-//        final Status status = locationSettingsResult.getStatus();
-//        switch (status.getStatusCode()) {
-//            case LocationSettingsStatusCodes.SUCCESS:
-//
-//                startLocationUpdates();
-//                break;
-//            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-//
-//
-//                try {
-//
-//                    status.startResolutionForResult(MainActivity.this, REQUEST_CHECK_SETTINGS);
-//                } catch (IntentSender.SendIntentException e) {
-//
-//                }
-//                break;
-//            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-//
-//                break;
-//        }
-//    }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        Log.i(TAG,"onactivityresult");
-//        switch (requestCode) {
-//            // Check for the integer request code originally supplied to startResolutionForResult().
-//            case REQUEST_CHECK_SETTINGS:
-//                switch (resultCode) {
-//                    case Activity.RESULT_OK:
-//                        Log.i(TAG, "User agreed to make required location settings changes.");
-//                        startLocationUpdates();
-//                        break;
-//                    case Activity.RESULT_CANCELED:
-//                        Log.i(TAG, "User chose not to make required location settings changes.");
-//                        break;
-//                }
-//                break;
-//        }
-//    }
-//
+
+    protected void checkLocationSettings() {
+        Log.i(TAG, "checklocationsettings");
+        PendingResult<LocationSettingsResult> result =
+                LocationServices.SettingsApi.checkLocationSettings(
+                        mGoogleApiClient,
+                        mLocationSettingsRequest
+                );
+        result.setResultCallback(this);
+    }
+
+    @Override
+    public void onResult(LocationSettingsResult locationSettingsResult) {
+
+        Log.i(TAG,"onresult");
+        final Status status = locationSettingsResult.getStatus();
+        switch (status.getStatusCode()) {
+            case LocationSettingsStatusCodes.SUCCESS:
+
+                startLocationUpdates();
+                break;
+            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+
+
+                try {
+
+                    status.startResolutionForResult(MainActivity.this, REQUEST_CHECK_SETTINGS);
+                } catch (IntentSender.SendIntentException e) {
+
+                }
+                break;
+            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG,"onactivityresult");
+        switch (requestCode) {
+            // Check for the integer request code originally supplied to startResolutionForResult().
+            case REQUEST_CHECK_SETTINGS:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        Log.i(TAG, "User agreed to make required location settings changes.");
+                        startLocationUpdates();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Log.i(TAG, "User chose not to make required location settings changes.");
+                        break;
+                }
+                break;
+        }
+    }
+
+
+    protected void stopLocationUpdates() {
+        Log.i(TAG,"stoplocationupdates");
+        // It is a good practice to remove location requests when the activity is in a paused or
+        // stopped state. Doing so helps battery performance and is especially
+        // recommended in applications that request frequent location updates.
+        LocationServices.FusedLocationApi.removeLocationUpdates(
+                mGoogleApiClient,
+                this
+        ).setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(Status status) {
+                mRequestingLocationUpdates = false;
+                //   setButtonsEnabledState();
+            }
+        });
+    }
 
 
 
@@ -310,12 +332,14 @@ public class MainActivity extends AppCompatActivity implements
                 return;
             }
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            updateMap(mCurrentLocation);
+
+            if(mCurrentLocation != null)
+                updateMap(mCurrentLocation);
 
         }
 
-        if (mCurrentLocation != null)
-            Log.i(TAG, Double.toString(mCurrentLocation.getLatitude()));
+//        if (mCurrentLocation != null)
+//            Log.i(TAG, Double.toString(mCurrentLocation.getLatitude()));
     }
 
 
@@ -346,13 +370,26 @@ public class MainActivity extends AppCompatActivity implements
     public void updateMap(Location location) {
 
         Log.i(TAG, "updateMap");
-        Marker myLocation;
-        LatLng currentMarker = new LatLng(location.getLatitude(), location.getLongitude());
-        //LatLng currentMarker = new LatLng(0,0);
-        myLocation = mMap.addMarker(new MarkerOptions().position(currentMarker).title("I win"));
+
+        if(location != null)
+             currentMarker = new LatLng(location.getLatitude(), location.getLongitude());
+
+
+        if(myCurrentLocationMarker == null)
+        {
+            myCurrentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentMarker).title("My Location"));
 
         CameraPosition target = CameraPosition.builder().target(currentMarker).zoom(14).build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(target));
+        }
+
+        else
+        {
+            myCurrentLocationMarker.remove();
+            myCurrentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentMarker).title(Double.toString(location.getLatitude()) + Double.toString(location.getLongitude())));
+
+        }
+
 
 
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
