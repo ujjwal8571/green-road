@@ -81,6 +81,17 @@ public class MainActivity extends AppCompatActivity implements
     private GoogleApiClient client;
 
 
+//
+//
+//    FragmentManager fragmentManager = getSupportFragmentManager();
+//    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//    Fragment fragment = null;
+//
+//    fragment = HomeFragment.newInstance();
+//    fragmentTransaction.replace(R.id.frag_container, fragment);
+//    fragmentTransaction.commit();
+
+
     @Override
     protected void onStart() {
         Log.i(TAG, "onstart");
@@ -329,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements
 
         if (mCurrentLocation == null) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
+                //return;
             }
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 

@@ -1,5 +1,6 @@
 package com.example.android.roadsafety;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -33,4 +34,12 @@ public class MarkedMarker extends MainActivity {
         ImageView image5 = (ImageView) findViewById(R.id.share);
 
     }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent backPressedIntent = new Intent(MarkedMarker.this, MainActivity.class);
+        startActivity(backPressedIntent);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.example.android.roadsafety;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -59,5 +60,13 @@ public class MarkerForm extends MainActivity implements OnItemSelectedListener
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         parent.getFirstVisiblePosition();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+        Intent backPressedIntent = new Intent(MarkerForm.this, MainActivity.class);
+        startActivity(backPressedIntent);
     }
 }
