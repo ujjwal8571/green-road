@@ -18,23 +18,36 @@
             android:value="AIzaSyDqiAQotq4nXGvNJRfoFYOvYQnJbdAlsts" />
 
         <!--<meta-data-->
-            <!--android:name="com.google.android.geo.API_KEY"-->
-            <!--android:value="AIzaSyAOVy1kEKewrByueecOFdbgJsT9xYEM4ok" />-->
+        <!--android:name="com.google.android.geo.API_KEY"-->
+        <!--android:value="AIzaSyAOVy1kEKewrByueecOFdbgJsT9xYEM4ok" />-->
 
 
+
+        <!--<activity-->
+            <!--android:name=".MainActivity"-->
+            <!--android:label="@string/app_name"-->
+            <!--android:theme="@style/AppTheme.NoActionBar">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
 
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
         <activity android:name=".MarkerForm"></activity>
         <activity android:name=".MarkedMarker"></activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
