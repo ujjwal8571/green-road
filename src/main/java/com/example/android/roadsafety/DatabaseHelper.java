@@ -101,11 +101,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-    public ArrayList<String> getAllMarkers() {
-        ArrayList<String> values = new ArrayList<String>();
+    public ArrayList<Double> getAllMarkers() {
+        ArrayList<Double> values = new ArrayList<Double>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        cursor = db.rawQuery("SELECT markerName FROM " + markerTable, null);
+        cursor = db.rawQuery("SELECT markerLatitutde,markerLongitude FROM " + markerTable, null);
         int a= cursor.getCount();
         Log.i("MainActivity",Integer.toString(a));
 
@@ -118,8 +118,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(cursor!=null) {
             if(cursor.moveToFirst()) {
                 do {
-                    String name = cursor.getString(cursor.getColumnIndex("markerName"));
-                    Log.i("MainActivity",name);
+                    Double latitude = cursor.getDouble(cursor.getColumnIndex("markerLatitutde"));
+                    values.add(latitude);
+                    Double longitude = cursor.getDouble(cursor.getColumnIndex("markerLongitude"));
+                    values.add(longitude);
+                    Log.i("MainActivity",Double.toString(latitude));
+                    Log.i("MainActivity",Double.toString(longitude));
 
                 }while(cursor.moveToNext());
             }

@@ -387,12 +387,16 @@ public class MainActivity extends AppCompatActivity implements
         mMap = map;
 
 
+
         ArrayList arrayList = dbHelper.getAllMarkers();
 
         Object[] mStringArray = arrayList.toArray();
 
-        for(int i = 0; i < mStringArray.length ; i++){
-            Log.d(TAG,(String)mStringArray[i]);
+        for(int i = 0; i < mStringArray.length ; i=i+2){
+            //Log.d(TAG,(String)mStringArray[i]);
+            currentMarker = new LatLng((Double)mStringArray[i], (Double)mStringArray[i+1]);
+            mMap.addMarker(new MarkerOptions().position(currentMarker));
+
         }
 
 
