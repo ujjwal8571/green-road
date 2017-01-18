@@ -2,6 +2,7 @@ package com.example.android.roadsafety;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -37,21 +38,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE "+ markerTable +" ( "+colID+"INTEGER PRIMARY KEY AUTOINCREMENT , "+
-                colType +"TEXT, "+colName+ "TEXT, "+ colEmail + "TEXT, "+ colLatitude+ "INTEGER, "+
-                colLongitude+ "INTEGER, "+ colImage+ "BLOB);");
+        db.execSQL("CREATE TABLE "+ markerTable +" ( "+colID+" INTEGER PRIMARY KEY AUTOINCREMENT , "+
+                colType +" TEXT, "+colName+ " TEXT, "+ colEmail + " TEXT, "+ colLatitude+ " INTEGER, "+
+                colLongitude+ " INTEGER, "+ colImage+ " BLOB);");
 
 
 
-        db.execSQL("CREATE VIEW"+viewmarker+
-                "AS SELECT "+markerTable+"."+colID+"AS _id,"+
-                " "+markerTable+"."+colType+","+
-                " "+markerTable+"."+colName+","+
-                " "+markerTable+"."+colEmail+","+
-                " "+markerTable+"."+colLatitude+","+
-                " "+markerTable+"."+colLongitude+","+
-                " "+markerTable+"."+colImage);
-
+//        db.execSQL("CREATE VIEW "+viewmarker+
+//                "AS SELECT "+markerTable+"."+colID+"AS _id,"+
+//                " "+markerTable+"."+colType+","+
+//                " "+markerTable+"."+colName+","+
+//                " "+markerTable+"."+colEmail+","+
+//                " "+markerTable+"."+colLatitude+","+
+//                " "+markerTable+"."+colLongitude+","+
+//                " "+markerTable+"."+colImage);
+//
 
     }
 
@@ -80,7 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(colLongitude,marker.getLongitude());
         cv.put(colImage, marker.getImage());
 
-        db.insert(markerTable, colName, cv);
+        db.insert(markerTable, null, cv);
         db.close();
 
 

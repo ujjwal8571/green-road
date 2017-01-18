@@ -382,7 +382,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    public void updateMap(Location location) {
+    public void updateMap(final Location location) {
 
         Log.i(TAG, "updateMap");
 
@@ -413,6 +413,8 @@ public class MainActivity extends AppCompatActivity implements
             public void onMapLongClick(LatLng latLng) {
 
                 Intent MarkerFormIntent = new Intent(MainActivity.this, MarkerForm.class );
+                MarkerFormIntent.putExtra("latitude", latLng.latitude);
+                MarkerFormIntent.putExtra("longitude", latLng.longitude);
                 startActivity(MarkerFormIntent);
 
 
@@ -488,17 +490,7 @@ public class MainActivity extends AppCompatActivity implements
             fragmentTransaction.replace(R.id.content_main, frag);
             fragmentTransaction.commit();
 //
-
-
         } else if (id == R.id.nav_settings) {
-
-            //} else if (id == R.id.nav_privacyPolicy) {
-
-        } else if (id == R.id.nav_signout) {
-
-            //} else if (id == R.id.nav_share) {
-
-            //} else if (id == R.id.nav_rateUs) {
 
         }
 

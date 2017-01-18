@@ -1,8 +1,11 @@
 package com.example.android.roadsafety;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,45 +19,54 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.io.IOException;
 
-public class MarkerForm extends MainActivity implements OnItemSelectedListener
-{
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import com.example.android.roadsafety.model.Marker;
+import com.google.android.gms.maps.model.LatLng;
+
+public class MarkerForm extends MainActivity implements OnItemSelectedListener {
     private static final int CAMERA_REQUEST = 1888;
     public static final int REQUEST_IMAGE_SELECTOR = 1887;
     private ImageView imageView;
+    public Bitmap image;
+
+    DatabaseHelper dbHelper;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.marker_form);
 
+        Bundle bundle = getIntent().getExtras();
+            final Double latitude = bundle.getDouble("latitude");
+            final Double longitude = bundle.getDouble("longitude");
+
+
+
+
         this.imageView = (ImageView) findViewById(R.id.gmarker);
 
-        //TextView text1 = (TextView) findViewById(R.id.text1);
 
-        Spinner spinner = (Spinner) findViewById(R.id.selecttype);
+
+        final Spinner spinner = (Spinner) findViewById(R.id.selecttype);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.marker_choice, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener((OnItemSelectedListener) this);
 
-        //TextView text2 = (TextView) findViewById(R.id.text2);
 
-        EditText markerName = (EditText) findViewById(R.id.entername);
+        final EditText markerName = (EditText) findViewById(R.id.entername);
 
         TextView currentLocation = (TextView) findViewById(R.id.yourlocation);
 
-//        TextView text4 = (TextView) findViewById(R.id.text4);
-//        //add latitude longitude here
-//        TextView text5 = (TextView) findViewById(R.id.text5);
+        currentLocation.setText(Double.toString(latitude) + ',' + Double.toString(longitude));
 
-        EditText markerUserEmail = (EditText) findViewById(R.id.enteremail);
 
-        //TextView text6 = (TextView) findViewById(R.id.total_potholes);
 
-        //ImageView image2 = (ImageView) findViewById(R.id.camera);
+        final EditText markerUserEmail = (EditText) findViewById(R.id.enteremail);
 
         Button cameraButton = (Button) findViewById(R.id.bcamera);
 
@@ -64,8 +76,22 @@ public class MarkerForm extends MainActivity implements OnItemSelectedListener
 
         ImageView imageView = (ImageView) findViewById(R.id.gmarker);
 
-        galleryButton.setOnClickListener(new View.OnClickListener() {
+        dbHelper = new DatabaseHelper(this);
 
+
+
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addMarker(spinner,markerName,markerUserEmail,latitude,longitude);
+
+                Intent backToMainActivity = new Intent(MarkerForm.this, MainActivity.class );
+                startActivity(backToMainActivity);
+            }
+        });
+
+        galleryButton.setOnClickListener(new View.OnClickListener() {
 
 
             @Override
@@ -86,7 +112,7 @@ public class MarkerForm extends MainActivity implements OnItemSelectedListener
 
             @Override
             public void onClick(View v) {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
 
@@ -94,24 +120,25 @@ public class MarkerForm extends MainActivity implements OnItemSelectedListener
         });
 
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
 
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            imageView.setImageBitmap(photo);
-        }
+            image = (Bitmap) data.getExtras().get("data");
+            imageView.setImageBitmap(image);
 
-        else if(requestCode == REQUEST_IMAGE_SELECTOR && resultCode == Activity.RESULT_OK){
+        } else if (requestCode == REQUEST_IMAGE_SELECTOR && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
 
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                image = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 // Log.d(TAG, String.valueOf(bitmap));
 
 
-                imageView.setImageBitmap(bitmap);
+                imageView.setImageBitmap(image);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -119,7 +146,9 @@ public class MarkerForm extends MainActivity implements OnItemSelectedListener
     }
 
 
-    public void onItemSelected(AdapterView<?> parent, View v,int pos,long id) {
+
+
+    public void onItemSelected(AdapterView<?> parent, View v, int pos, long id) {
         parent.getItemAtPosition(pos);
     }
 
@@ -134,5 +163,36 @@ public class MarkerForm extends MainActivity implements OnItemSelectedListener
 
         Intent backPressedIntent = new Intent(MarkerForm.this, MainActivity.class);
         startActivity(backPressedIntent);
+    }
+
+
+    public void addMarker(Spinner spinner, EditText markerName, EditText userEmail, Double latitude, Double longitude) {
+        String spinnerText = spinner.getSelectedItem().toString();
+        String markerNameText = markerName.getText().toString();
+        String userEmailText = userEmail.getText().toString();
+        String markerLatitude = Double.toString(latitude);
+        String markerLongitude = Double.toString(longitude);
+
+        Bitmap markerImage = image;
+//        Bitmap b = BitmapFactory.decodeResource(getResources(),
+//                R.drawable.kitkat);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        markerImage.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        byte[] img = bos.toByteArray();
+
+        Marker marker = new Marker();
+
+        marker.setType(spinnerText);
+        marker.setName(markerNameText);
+        marker.setEmail(userEmailText);
+        marker.setLatitude(markerLatitude);
+        marker.setLongitude(markerLongitude);
+        marker.setImage(img);
+
+        dbHelper.AddMarker(marker);
+
+
+
+
     }
 }
