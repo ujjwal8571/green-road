@@ -5,7 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,7 +25,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 
 import com.google.android.gms.appindexing.Action;
@@ -47,6 +47,7 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+
 
 
 //
@@ -181,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
 
 
 
@@ -414,6 +417,7 @@ public class MainActivity extends AppCompatActivity implements
         if(myCurrentLocationMarker == null)
         {
             myCurrentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentMarker).title("My Location"));
+            myCurrentLocationMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.last_marker));
 
         CameraPosition target = CameraPosition.builder().target(currentMarker).zoom(14).build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(target));
@@ -423,6 +427,7 @@ public class MainActivity extends AppCompatActivity implements
         {
             myCurrentLocationMarker.remove();
             myCurrentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentMarker).title(Double.toString(location.getLatitude()) + Double.toString(location.getLongitude())));
+            myCurrentLocationMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.last_marker));
 
         }
 
