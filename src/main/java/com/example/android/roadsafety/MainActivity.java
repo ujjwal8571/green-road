@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -55,6 +56,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         OnMapReadyCallback,
@@ -78,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements
     public Marker myCurrentLocationMarker;
     public static final int REQUEST_PERMISSION_LOCATION = 10;
     int RQS_GooglePlayServices = 0;
+
+    DatabaseHelper dbHelper;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -169,6 +174,8 @@ public class MainActivity extends AppCompatActivity implements
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        dbHelper = new DatabaseHelper(this);
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -379,6 +386,16 @@ public class MainActivity extends AppCompatActivity implements
         mapReady = true;
         mMap = map;
 
+
+        ArrayList arrayList = dbHelper.getAllMarkers();
+
+        Object[] mStringArray = arrayList.toArray();
+
+        for(int i = 0; i < mStringArray.length ; i++){
+            Log.d(TAG,(String)mStringArray[i]);
+        }
+
+
     }
 
 
@@ -481,8 +498,15 @@ public class MainActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
+
+//            frag = MainActivity.class;
+//            fragmentTransaction.replace(R.id.content_main, frag);
+//            fragmentTransaction.commit();
             // Handle the camera action
         } else if (id == R.id.nav_about) {
+            frag = AboutFragment.newInstance();
+            fragmentTransaction.replace(R.id.content_main, frag);
+            fragmentTransaction.commit();
 
         } else if (id == R.id.nav_statistics) {
 

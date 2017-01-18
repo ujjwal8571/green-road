@@ -6,10 +6,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.google.android.gms.ads.formats.NativeAd;
 //import com.google.android.gms.maps.model.Marker;
 import com.example.android.roadsafety.model.Marker;
+
+import java.sql.Array;
+import java.util.ArrayList;
 
 
 /**
@@ -30,6 +34,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     static final String viewmarker="ViewMarker";
 
+    public Cursor cursor;
+
     public DatabaseHelper(Context context) {
         super(context,dbName,null,33);
     }
@@ -38,9 +44,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE "+ markerTable +" ( "+colID+" INTEGER PRIMARY KEY AUTOINCREMENT , "+
-                colType +" TEXT, "+colName+ " TEXT, "+ colEmail + " TEXT, "+ colLatitude+ " INTEGER, "+
-                colLongitude+ " INTEGER, "+ colImage+ " BLOB);");
+        db.execSQL("CREATE TABLE "+ markerTable +"( "+colID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                colType +" TEXT, "+colName+ " TEXT, "+ colEmail + " TEXT, "+ colLatitude+ " DOUBLE, "+
+                colLongitude+ " DOUBLE, "+ colImage+ " BLOB)");
 
 
 
@@ -80,19 +86,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(colLatitude,marker.getLatitude());
         cv.put(colLongitude,marker.getLongitude());
         cv.put(colImage, marker.getImage());
-
+        Log.i("MainActivity",cv.toString());
         db.insert(markerTable, null, cv);
+        Log.i("MainActivity",db.toString());
+
+
+
+
+
         db.close();
 
 
     }
 
-    Cursor getAllMarkers()
-    {
-        SQLiteDatabase db=this.getWritableDatabase();
 
-        Cursor cur= db.rawQuery("SELECT * FROM "+viewmarker,null);
-        return cur;
+
+    public ArrayList<String> getAllMarkers() {
+        ArrayList<String> values = new ArrayList<String>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        cursor = db.rawQuery("SELECT markerName FROM " + markerTable, null);
+        int a= cursor.getCount();
+        Log.i("MainActivity",Integer.toString(a));
+
+//        if (cursor.moveToFirst()) {
+//            do {
+//                values.add(cursor.getString(cursor.getColumnIndex(colID)));
+//            } while (cursor.moveToNext());
+//        }
+
+        if(cursor!=null) {
+            if(cursor.moveToFirst()) {
+                do {
+                    String name = cursor.getString(cursor.getColumnIndex("markerName"));
+                    Log.i("MainActivity",name);
+
+                }while(cursor.moveToNext());
+            }
+        }
+
+        cursor.close();
+        db.close();
+
+
+        return values;
 
     }
 
