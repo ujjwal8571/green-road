@@ -16,7 +16,7 @@
         android:text="Broken Road"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:id="@+id/text1"
+        android:id="@+id/type"
         android:layout_below="@+id/micon"
         android:layout_alignParentStart="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -30,7 +30,7 @@
         app:srcCompat="@drawable/smarker"
         android:layout_marginBottom="20dp"
         android:id="@+id/smarker"
-        android:layout_alignBottom="@+id/text1"
+        android:layout_alignBottom="@+id/type"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/smarker"
         android:layout_marginStart="35dp"
-        android:id="@+id/text2"
+        android:id="@+id/name"
         android:textColor="@color/cast_expanded_controller_text_color"
         android:layout_alignTop="@+id/smarker"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
@@ -52,7 +52,7 @@
         android:layout_marginTop="30dp"
         android:id="@+id/likeButton"
         android:background="#6669e0b1"
-        android:layout_below="@+id/text1" />
+        android:layout_below="@+id/type" />
 
     <Button
         android:text="Fake"
@@ -85,15 +85,15 @@
         android:layout_width="45dp"
         android:layout_height="35dp"
         app:srcCompat="@drawable/fake"
-        android:layout_below="@+id/text1"
+        android:layout_below="@+id/type"
         android:id="@+id/fake"
-        android:layout_toEndOf="@+id/text2" />
+        android:layout_toEndOf="@+id/name" />
 
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
         app:srcCompat="@drawable/share"
-        android:layout_below="@+id/text1"
+        android:layout_below="@+id/type"
         android:layout_alignStart="@+id/shareButton"
         android:layout_marginStart="27dp"
         android:id="@+id/share" />

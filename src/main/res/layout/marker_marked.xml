@@ -16,7 +16,7 @@
         android:text="Covered But Risky"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:id="@+id/text1"
+        android:id="@+id/type"
         android:layout_below="@+id/micon"
         android:layout_alignParentStart="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -30,7 +30,7 @@
         app:srcCompat="@drawable/smarker"
         android:layout_marginBottom="20dp"
         android:id="@+id/smarker"
-        android:layout_alignBottom="@+id/text1"
+        android:layout_alignBottom="@+id/type"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -39,20 +39,10 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/smarker"
         android:layout_marginStart="35dp"
-        android:id="@+id/text2"
+        android:id="@+id/name"
         android:textColor="@color/cast_expanded_controller_text_color"
         android:layout_alignTop="@+id/smarker"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-    <Button
-        android:text="Like"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp"
-        android:id="@+id/likeButton"
-        android:background="#6669e0b1"
-        android:layout_below="@+id/text1" />
 
     <Button
         android:text="Fake"
@@ -78,24 +68,35 @@
         android:layout_height="35dp"
         app:srcCompat="@drawable/like"
         android:id="@+id/like"
-        android:layout_above="@+id/fakeButton"
+        android:layout_alignTop="@+id/fake"
         android:layout_toEndOf="@+id/smarker" />
-
-    <ImageView
-        android:layout_width="45dp"
-        android:layout_height="35dp"
-        app:srcCompat="@drawable/fake"
-        android:layout_below="@+id/text1"
-        android:id="@+id/fake"
-        android:layout_toEndOf="@+id/text2" />
 
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
         app:srcCompat="@drawable/share"
-        android:layout_below="@+id/text1"
-        android:layout_alignStart="@+id/shareButton"
-        android:layout_marginStart="27dp"
-        android:id="@+id/share" />
+        android:layout_marginStart="28dp"
+        android:id="@+id/share"
+        android:layout_above="@+id/likeButton"
+        android:layout_alignStart="@+id/shareButton" />
+
+    <Button
+        android:text="Like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:id="@+id/likeButton"
+        android:background="#6669e0b1"
+        android:layout_below="@+id/like"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="35dp"
+        app:srcCompat="@drawable/fake"
+        android:id="@+id/fake"
+        android:layout_marginTop="22dp"
+        android:layout_below="@+id/type"
+        android:layout_toEndOf="@+id/name" />
 
 </RelativeLayout>

@@ -14,11 +14,11 @@ public class markerunmarked extends MainActivity {
 
         ImageView image1 = (ImageView) findViewById(R.id.micon);
 
-        TextView text1 = (TextView) findViewById(R.id.text1);
+        TextView text1 = (TextView) findViewById(R.id.type);
 
         ImageView image2 = (ImageView) findViewById(R.id.smarker);
 
-        TextView text2 = (TextView) findViewById(R.id.text2);
+        TextView text2 = (TextView) findViewById(R.id.name);
 
         Button button1 = (Button) findViewById(R.id.likeButton);
 

@@ -61,7 +61,7 @@ import android.widget.TextView;
 //        TextView toolbar = (TextView) findViewById(R.id.toolbar);
 //    }
 
-    public class StatisticsFragment extends Fragment {
+public class StatisticsFragment extends Fragment {
 
 
 
@@ -85,8 +85,5 @@ import android.widget.TextView;
         View rootView = inflater.inflate(R.layout.statisticsfragment, container, false);
         return rootView;
     }
-
-
-
 
 }

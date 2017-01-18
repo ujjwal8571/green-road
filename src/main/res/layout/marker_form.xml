@@ -5,33 +5,22 @@
     android:id="@+id/relativelayout">
 
     <TextView
-        android:text="Type :"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="230dp"
-        android:id="@+id/text1" />
-
-    <TextView
         android:text="Name :"
         android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinner1"
+        android:layout_below="@+id/selecttype"
         android:layout_marginTop="20dp"
-        android:id="@+id/text2" />
+        android:id="@+id/name" />
 
     <TextView
         android:text="Location :"
         android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/entername"
         android:layout_marginTop="20dp"
-        android:id="@+id/text3"
+        android:id="@+id/inthisweek"
         android:layout_alignParentStart="true" />
 
     <EditText
@@ -39,99 +28,118 @@
         android:layout_height="wrap_content"
         android:inputType="text"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/entername"
         android:selectAllOnFocus="false"
         android:singleLine="true"
-        android:layout_alignBottom="@+id/text2"
+        android:layout_alignBottom="@+id/name"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/text3"
-        android:layout_alignTop="@+id/text2" />
+        android:layout_toEndOf="@+id/inthisweek"
+        android:layout_alignTop="@+id/name" />
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner1"
-        android:layout_alignBottom="@+id/text1"
+        android:id="@+id/selecttype"
+        android:layout_alignBottom="@+id/type"
         android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/editText"
-        android:layout_alignTop="@+id/text1" />
+        android:layout_alignStart="@+id/entername"
+        android:layout_alignTop="@+id/type" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/text4"
+        android:id="@+id/yourlocation"
         android:layout_marginTop="20dp"
-        android:layout_alignBaseline="@+id/text3"
-        android:layout_alignBottom="@+id/text3"
-        android:layout_toEndOf="@+id/text5" />
+        android:layout_alignBaseline="@+id/inthisweek"
+        android:layout_alignBottom="@+id/inthisweek"
+        android:layout_toEndOf="@+id/email" />
 
     <TextView
         android:text="E-mail :"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/text5"
+        android:id="@+id/email"
         android:layout_marginLeft="5dp"
-        android:layout_below="@+id/text3"
+        android:layout_below="@+id/inthisweek"
         android:layout_alignParentStart="true"
         android:layout_marginTop="20dp"
-        android:layout_alignEnd="@+id/text3" />
+        android:layout_alignEnd="@+id/inthisweek" />
 
     <TextView
         android:text="Image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text5"
+        android:layout_below="@+id/email"
         android:layout_alignParentStart="true"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="5dp"
         android:id="@+id/total_potholes"
-        android:layout_alignEnd="@+id/text2" />
+        android:layout_alignEnd="@+id/name" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:layout_toEndOf="@+id/text5"
-        android:id="@+id/editText2"
-        android:layout_alignBottom="@+id/text5"
-        android:hint="Email"
-        android:layout_alignTop="@+id/text5" />
+        android:layout_toEndOf="@+id/email"
+        android:id="@+id/enteremail"
+        android:layout_alignBottom="@+id/email"
+        android:layout_alignTop="@+id/email" />
+
+    <TextView
+        android:text="Type :"
+        android:layout_marginLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/type"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/gmarker"
         android:id="@+id/gmarker"
-        android:layout_above="@+id/text1"
+        android:layout_above="@+id/selecttype"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="57dp" />
+        android:layout_marginBottom="20dp" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         app:srcCompat="@drawable/camera"
         android:id="@+id/camera"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/total_potholes" />
+        android:layout_below="@+id/enteremail"
+        android:layout_toEndOf="@+id/email"
+        android:layout_marginStart="13dp" />
+
+    <Button
+        android:text="SUBMIT"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/submit"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/white" />
+
+    <Button
+        android:text="GALLERY"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/bgallery"
+        android:background="@color/cast_intro_overlay_button_background_color"
+        android:layout_above="@+id/submit"
+        android:layout_alignStart="@+id/bcamera"
+        android:layout_marginBottom="24dp" />
 
     <Button
         android:text="Camera"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginEnd="37dp"
         android:id="@+id/bcamera"
-        android:textColorLink="?android:attr/colorPrimaryDark"
-        android:layout_alignBaseline="@+id/total_potholes"
-        android:layout_alignBottom="@+id/total_potholes"
-        android:layout_toEndOf="@+id/camera" />
-
-    <Button
-        android:text="Gallery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/bgallery"
-        android:textColorLink="?android:attr/colorPrimaryDark"
-        android:layout_below="@+id/bcamera"
-        android:layout_toEndOf="@+id/camera" />
+        android:background="@color/cast_intro_overlay_button_background_color"
+        android:layout_below="@+id/total_potholes"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

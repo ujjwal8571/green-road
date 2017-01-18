@@ -12,6 +12,8 @@
     <string-array name="marker_choice">
         <item>Bump</item>
         <item>Pot Hole</item>
+        <item>Parking issue</item>
+        <item>Faulty traffic signal</item>
     </string-array>
     <string name="title_activity_login">Sign in</string>
 
