@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity  {
                         .createSignInIntentBuilder()
                     .setLogo(R.mipmap.logo)
                     .setIsSmartLockEnabled(false)
-                    .setProviders(AuthUI.GOOGLE_PROVIDER)
+                    .setProviders(AuthUI.EMAIL_PROVIDER)
                     .build(this),
                     RC_SIGN_IN);
 

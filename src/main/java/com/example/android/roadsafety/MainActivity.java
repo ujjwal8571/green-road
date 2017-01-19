@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -389,8 +390,6 @@ public class MainActivity extends AppCompatActivity implements
         mapReady = true;
         mMap = map;
 
-
-
         ArrayList arrayList = dbHelper.getAllMarkers();
 
         Object[] mStringArray = arrayList.toArray();
@@ -403,8 +402,9 @@ public class MainActivity extends AppCompatActivity implements
         }
 
 
-    }
 
+
+    }
 
     public void updateMap(final Location location) {
 
@@ -474,9 +474,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        return false;
     }
 
     @Override

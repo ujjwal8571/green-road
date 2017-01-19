@@ -16,6 +16,8 @@ import android.widget.TextView;
 //
 //    TextView about = (TextView) findViewById(R.id.about);
 //    TextView aboutinfo = (TextView) findViewById(R.id.aboutapp);
+//    about.setMovementMethod(new ScrollingMovementMethod());
+
 
 public class AboutFragment extends Fragment {
 

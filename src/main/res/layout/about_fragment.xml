@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#ffffe0" >
+    android:background="#ffffff">
 
     <TextView
-        android:text="Road accident not only takes lives, or leaves people injured, it fades away the future of victims’ families as well. Every year thousands of road accidents taking thousands of lives and keeping more injured. According to BRAC road safety database, in 2014, 1817 road accidents took 2351 lives leaving more 5408 people injured. In 2015, the number of road accident was 2001 which took 2562 lives and left more 5707 injured.  The above statistics are based on media reporting. There are lot more accidents which don’t get media attention, but still has the same potential to be a deadly one. In our 1 on month observation, we have found, that more than 600 people got injured just in Dhaka city due to unmarked speed breaker, Pot hole and risky point. So, the yearly estimated number is more than 7200.  Safe road saves life. Almost all of the 7200 accidents can be avoided if the roads were safer or people know where the risky spots are. We have found that the major victims of these accidents are cyclists, bikers and rickshaw passengers. With this road safety app, everyone with an android phone can become a road safety change marker. The app user can report unmarked speed breaker, pot hole and also marked a resolved issue as safe with location information and photo. The verified report will be shown on the app map. Also, there will be a statistics box which will tell how many “pot holes” and “unmarked bumps” have been marked and how many of them have been resolved done during the last week and month.  "
+        android:text="Road accident not only takes lives, or leaves people injured, it fades away the future of victims’ families as well. Every year thousands of road accidents taking thousands of lives and keeping more injured. In our 1 on month observation, we have found, that more than 600 people got injured just in this ity due to unmarked speed breaker, Pot hole and risky point. So, the yearly estimated number is more than 7200.  Safe road saves life. Almost all accidents can be avoided if the roads are safer or people know where the risky spots are. We have found that the major victims of these accidents are cyclists, bikers and rickshaw passengers. With this road safety app, everyone with an android phone can become a road safety change marker. The app user can report unmarked speed breaker, pot hole and also marked a resolved issue as safe with location information and photo. The verified report will be shown on the app map. Also, there will be a statistics box which will tell how many “pot holes” and “unmarked bumps” have been marked and how many of them have been resolved done during the last week and month.  "
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
@@ -20,7 +20,10 @@
         android:layout_alignStart="@+id/aboutapp"
         android:id="@+id/about"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="#091878" />
+        android:textColor="#091878"
+        android:maxLines = "1000"
+        android:scrollbars = "vertical"
+        />
 </RelativeLayout>
 
 
