@@ -164,12 +164,12 @@
         android:textColor="@color/colorPrimaryDark" />
 
     <TextView
-        android:text="PotHole : 0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/pothole1"
         android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/type" />
+        android:layout_alignStart="@+id/type"
+        android:text="PotHole : 6" />
 
     <TextView
         android:text="Bump : 0"

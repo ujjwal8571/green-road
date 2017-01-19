@@ -2,12 +2,15 @@ package com.example.android.roadsafety;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Notification;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
@@ -26,6 +30,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 
 import com.google.android.gms.appindexing.Action;
@@ -177,6 +183,10 @@ public class MainActivity extends AppCompatActivity implements
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+//        View header=navigationView.getHeaderView(0);
+//        TextView name = (TextView)header.findViewById(R.id.username);
+//        TextView email = (TextView)header.findViewById(R.id.email);
+//        email.setText(user.getEmail());
 
         dbHelper = new DatabaseHelper(this);
 
@@ -381,6 +391,35 @@ public class MainActivity extends AppCompatActivity implements
         mCurrentLocation = location;
         updateMap(mCurrentLocation);
 
+        ArrayList arrayList = dbHelper.getAllMarkers();
+        Location target = new Location("target");
+        Object[] mStringArray = arrayList.toArray();
+
+        for(int i = 0; i < mStringArray.length ; i=i+2) {
+            //Log.d(TAG,(String)mStringArray[i]);
+            currentMarker = new LatLng((Double) mStringArray[i], (Double) mStringArray[i + 1]);
+            target.setLatitude(currentMarker.latitude);
+            target.setLongitude(currentMarker.longitude);
+            Log.i(TAG,Double.toString(mCurrentLocation.distanceTo(target)));
+            if (mCurrentLocation.distanceTo(target) < 10) {
+
+                Log.i(TAG, "ek baar aa jani chahiye notification");
+//                NotificationCompat.Builder mBuilder =
+//                        new NotificationCompat.Builder(this)
+//                                .setSmallIcon(R.mipmap.logo)
+//                                .setContentTitle(getString(R.string.app_name))
+//                                .setContentText("Drive Carefully")
+//                                .setDefaults(Notification.DEFAULT_SOUND)
+//                                .setAutoCancel(true);
+
+                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                r.play();
+            }
+        }
+
+
+
     }
 
 
@@ -505,6 +544,7 @@ public class MainActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
+            startActivity(new Intent(this,MainActivity.class));
 
 //            frag = MainActivity.class;
 //            fragmentTransaction.replace(R.id.content_main, frag);

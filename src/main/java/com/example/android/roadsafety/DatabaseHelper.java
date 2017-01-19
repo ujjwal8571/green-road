@@ -86,9 +86,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(colLatitude,marker.getLatitude());
         cv.put(colLongitude,marker.getLongitude());
         cv.put(colImage, marker.getImage());
-        Log.i("MainActivity",cv.toString());
+        //Log.i("MainActivity",cv.toString());
         db.insert(markerTable, null, cv);
-        Log.i("MainActivity",db.toString());
+        //Log.i("MainActivity",db.toString());
 
 
 
@@ -107,7 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         cursor = db.rawQuery("SELECT markerLatitutde,markerLongitude FROM " + markerTable, null);
         int a= cursor.getCount();
-        Log.i("MainActivity",Integer.toString(a));
+        //Log.i("MainActivity",Integer.toString(a));
 
 //        if (cursor.moveToFirst()) {
 //            do {
@@ -122,8 +122,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     values.add(latitude);
                     Double longitude = cursor.getDouble(cursor.getColumnIndex("markerLongitude"));
                     values.add(longitude);
-                    Log.i("MainActivity",Double.toString(latitude));
-                    Log.i("MainActivity",Double.toString(longitude));
+                    //Log.i("MainActivity",Double.toString(latitude));
+                    //Log.i("MainActivity",Double.toString(longitude));
 
                 }while(cursor.moveToNext());
             }
