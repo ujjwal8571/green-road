@@ -34,8 +34,7 @@
         android:layout_alignBottom="@+id/name"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/inthisweek"
-        android:layout_alignTop="@+id/name"
-        android:visibility="visible"/>
+        android:layout_below="@+id/selecttype" />
 
     <Spinner
         android:layout_width="match_parent"
@@ -85,8 +84,7 @@
         android:layout_toEndOf="@+id/email"
         android:id="@+id/enteremail"
         android:layout_alignBottom="@+id/email"
-        android:layout_alignTop="@+id/email"
-        android:visibility="visible"/>
+        android:layout_below="@+id/inthisweek" />
 
     <TextView
         android:text="Type :"
