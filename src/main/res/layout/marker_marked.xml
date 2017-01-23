@@ -5,6 +5,12 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <ImageView
+        android:adjustViewBounds="true"
+        android:maxHeight="250dp"
+        android:maxWidth="250dp"
+        android:minHeight="250dp"
+        android:minWidth="250dp"
+        android:scaleType="centerInside"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/gmarker2"
@@ -54,14 +60,6 @@
         android:background="#6669e0b1"
         android:layout_alignTop="@+id/likeButton" />
 
-    <Button
-        android:text="Share"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/fakeButton"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/shareButton"
-        android:background="#6669e0b1" />
 
     <ImageView
         android:layout_width="35dp"
@@ -71,14 +69,6 @@
         android:layout_alignTop="@+id/fake"
         android:layout_toEndOf="@+id/smarker" />
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:srcCompat="@drawable/share"
-        android:layout_marginStart="28dp"
-        android:id="@+id/share"
-        android:layout_above="@+id/likeButton"
-        android:layout_alignStart="@+id/shareButton" />
 
     <Button
         android:text="Like"

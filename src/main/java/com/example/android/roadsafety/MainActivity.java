@@ -23,6 +23,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.ActionBar;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
@@ -37,6 +38,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -197,8 +199,8 @@ public class MainActivity extends AppCompatActivity implements
 
         SharedPreferences mySharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         isChecked = mySharedPreferences.getBoolean("isChecked",false);
-        distance = (EditText) mySharedPreferences.getStringSet("distance",null);
-        val = Integer.parseInt( distance.getText().toString() );
+       //distance = (EditText) mySharedPreferences.getStringSet("distance",null);
+//        val = Integer.parseInt( distance.getText().toString() );
 
 
 
@@ -390,7 +392,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.i(TAG, "locationchanged");
+        //Log.i(TAG, "locationchanged");
 
         mCurrentLocation = location;
         updateMap(mCurrentLocation);
@@ -407,7 +409,7 @@ public class MainActivity extends AppCompatActivity implements
                 target.setLatitude(currentMarker.latitude);
                 target.setLongitude(currentMarker.longitude);
                 Log.i(TAG, Double.toString(mCurrentLocation.distanceTo(target)));
-                if (mCurrentLocation.distanceTo(target) < val) {
+                if (mCurrentLocation.distanceTo(target) < 15) {
 
                     Log.i(TAG, "ek baar aa jani chahiye notification");
 //                NotificationCompat.Builder mBuilder =
@@ -432,7 +434,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onMapReady(GoogleMap map) {
-        Log.i(TAG, "mapready");
+        //Log.i(TAG, "mapready");
         mapReady = true;
         mMap = map;
 
@@ -445,6 +447,7 @@ public class MainActivity extends AppCompatActivity implements
             currentMarker = new LatLng((Double)mStringArray[i], (Double)mStringArray[i+1]);
             mMap.addMarker(new MarkerOptions().position(currentMarker));
 
+
         }
 
 
@@ -454,7 +457,7 @@ public class MainActivity extends AppCompatActivity implements
 
     public void updateMap(final Location location) {
 
-        Log.i(TAG, "updateMap");
+        //Log.i(TAG, "updateMap");
 
         if(location != null)
              currentMarker = new LatLng(location.getLatitude(), location.getLongitude());
@@ -472,7 +475,9 @@ public class MainActivity extends AppCompatActivity implements
         else
         {
             myCurrentLocationMarker.remove();
-            myCurrentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentMarker).title(Double.toString(location.getLatitude()) + Double.toString(location.getLongitude())));
+            myCurrentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentMarker).title("My Location"));
+            Log.i(TAG,Double.toString(currentMarker.latitude));
+            Log.i(TAG,Double.toString(currentMarker.longitude));
             myCurrentLocationMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.last_marker));
 
         }
@@ -485,24 +490,58 @@ public class MainActivity extends AppCompatActivity implements
             public void onMapLongClick(LatLng latLng) {
 
                 Intent MarkerFormIntent = new Intent(MainActivity.this, MarkerForm.class );
-                MarkerFormIntent.putExtra("latitude", location.getLatitude());
-                MarkerFormIntent.putExtra("longitude", location.getLongitude());
+
                 startActivity(MarkerFormIntent);
 
 
             }
         });
 
+//
+//        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+//            @Override
+//            public void onInfoWindowClick(Marker marker) {
+//                Intent intent = new Intent(MainActivity.this,MarkedMarker.class);
+//                //Log.i(TAG,"yha se ho rha hai");
+//
+//                intent.putExtra("latitude", marker.getPosition().latitude);
+//                intent.putExtra("longitude", marker.getPosition().longitude);
+//
+//
+//
+//                startActivity(intent);
+//
+//
+//            }
+//
+//        });
 
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
             @Override
-            public void onInfoWindowClick(Marker marker) {
+            public boolean onMarkerClick(final Marker marker) {
                 Intent intent = new Intent(MainActivity.this,MarkedMarker.class);
-                startActivity(intent);
+
+                if(marker.getPosition().latitude != location.getLatitude() && marker.getPosition().longitude != location.getLongitude()) {
 
 
-            }
+                    //Log.i(TAG,"yha se ho rha hai");
+
+                    intent.putExtra("latitude", marker.getPosition().latitude);
+                    intent.putExtra("longitude", marker.getPosition().longitude);
+
+
+                    startActivity(intent);
+
+                }
+                return true;
+                }
         });
+
+
+
+
+
     }
 
 
@@ -548,12 +587,18 @@ public class MainActivity extends AppCompatActivity implements
 
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.preferences);
+            ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+//            setSupportActionBar(actionBar);
+
+
+
         }
 
 
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View view = super.onCreateView(inflater, container, savedInstanceState);
+
             if (view != null) {
                 view.setBackgroundColor(getResources().getColor(android.R.color.background_light));
             }
@@ -562,11 +607,7 @@ public class MainActivity extends AppCompatActivity implements
         }
 
 
-//        public void onBackPressed() {
-//
-//            Intent backPressedIntent = new Intent(, MainActivity.class);
-//            startActivity(backPressedIntent);
-//        }
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

@@ -13,6 +13,7 @@ import com.google.android.gms.ads.formats.NativeAd;
 import com.example.android.roadsafety.model.Marker;
 
 import java.sql.Array;
+import java.sql.Blob;
 import java.util.ArrayList;
 
 
@@ -98,6 +99,70 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     }
+
+
+    public byte[] getMarkerImage(Double latitude, Double longitude) {
+
+
+        byte[] blob=null;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        cursor = db.rawQuery("SELECT markerImage FROM "+ markerTable+ " WHERE  markerLatitutde=? AND markerLongitude=?",
+        new String[]{latitude.toString(), longitude.toString()}
+        );
+        Log.i("MarkerActivity","image aagai shyad");
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+
+
+                    blob = cursor.getBlob(cursor.getColumnIndex("markerImage"));
+                    //byte[] abc = null;
+
+
+                } while (cursor.moveToNext());
+            }
+        }
+
+
+
+        return blob;
+
+
+    }
+
+
+    public ArrayList<String> getMarkerText(Double latitude, Double longitude) {
+        ArrayList<String> values = new ArrayList<String>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        cursor = db.rawQuery("SELECT markerType,markerName,markerEmail FROM " + markerTable + " WHERE markerLatitutde=? AND markerLongitude=?",
+                new String[]{latitude.toString(), longitude.toString()}
+        );
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    String type = cursor.getString(cursor.getColumnIndex("markerType"));
+                    values.add(type);
+                    String name = cursor.getString(cursor.getColumnIndex("markerName"));
+                    values.add(name);
+                    String email = cursor.getString(cursor.getColumnIndex("markerEmail"));
+                    values.add(email);
+                    //Log.i("MainActivity",Double.toString(latitude));
+                    //Log.i("MainActivity",Double.toString(longitude));
+//                    Log.i("MarkActivity", type);
+//                    Log.i("M", name);
+//                    Log.i("MainActivity", email);
+
+                } while (cursor.moveToNext());
+            }
+        }
+        return values;
+    }
+
 
 
 
