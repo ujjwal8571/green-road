@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.roadsafety.SettingsFragment">
+
+    <TextView
+        android:text="This might take a lot of battery. Please apply this choice only when needed."
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/warning" />
+
+    <TextView
+        android:text="Alert Notifications"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/alert"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/warning"
+        android:layout_alignStart="@+id/warning"
+        android:layout_marginTop="22dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+    <TextView
+        android:text="Enter alert distance"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/alert"
+        android:layout_alignStart="@+id/alert"
+        android:layout_marginTop="32dp"
+        android:id="@+id/alertdistance"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text|textPersonName|number"
+        android:ems="10"
+        android:layout_alignBottom="@+id/alertdistance"
+        android:layout_alignEnd="@+id/warning"
+        android:id="@+id/enteralertdistance"
+        android:hint="enter distance in metres" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkboxforalert"
+        android:layout_above="@+id/alertdistance"
+        android:layout_centerHorizontal="true" />
+
+    <!--<Button-->
+        <!--android:text="APPLY CHANGES"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/enteralertdistance"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="43dp"-->
+        <!--android:id="@+id/button2"-->
+        <!--style="@android:style/Widget.Button" />-->
+
+</RelativeLayout>

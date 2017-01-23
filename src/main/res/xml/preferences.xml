@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <PreferenceCategory
+        android:title="   ">
+
+    <EditTextPreference android:title="Distance"
+        android:key="distance"
+        android:summary="Distance for location alert"></EditTextPreference>
+
+
+    <CheckBoxPreference android:title="Notifications"
+        android:defaultValue="false"
+        android:summary="This option if selected will allow the application to send notifications."
+        android:key="sendNotifications" />
+
+    </PreferenceCategory>
+
+
+
+
+
+</PreferenceScreen>

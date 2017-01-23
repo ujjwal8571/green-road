@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Notification;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,6 +14,8 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
 import android.support.v4.app.ActivityCompat;
@@ -28,9 +31,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -64,6 +70,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements
@@ -75,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements
         ResultCallback<LocationSettingsResult>{
 
     final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+
 
     private GoogleMap mMap;
     boolean mapReady = false;
@@ -89,25 +99,15 @@ public class MainActivity extends AppCompatActivity implements
     public Marker myCurrentLocationMarker;
     public static final int REQUEST_PERMISSION_LOCATION = 10;
     int RQS_GooglePlayServices = 0;
-
     DatabaseHelper dbHelper;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
     private GoogleApiClient client;
+    public Boolean isChecked;
+    public EditText distance;
+    public int val;
 
 
 
-//
-//
-//    FragmentManager fragmentManager = getSupportFragmentManager();
-//    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//    Fragment fragment = null;
-//
-//    fragment = HomeFragment.newInstance();
-//    fragmentTransaction.replace(R.id.frag_container, fragment);
-//    fragmentTransaction.commit();
+
 
 
     @Override
@@ -195,6 +195,10 @@ public class MainActivity extends AppCompatActivity implements
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        SharedPreferences mySharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        isChecked = mySharedPreferences.getBoolean("isChecked",false);
+        distance = (EditText) mySharedPreferences.getStringSet("distance",null);
+        val = Integer.parseInt( distance.getText().toString() );
 
 
 
@@ -391,19 +395,21 @@ public class MainActivity extends AppCompatActivity implements
         mCurrentLocation = location;
         updateMap(mCurrentLocation);
 
-        ArrayList arrayList = dbHelper.getAllMarkers();
-        Location target = new Location("target");
-        Object[] mStringArray = arrayList.toArray();
+        if(isChecked == true) {
 
-        for(int i = 0; i < mStringArray.length ; i=i+2) {
-            //Log.d(TAG,(String)mStringArray[i]);
-            currentMarker = new LatLng((Double) mStringArray[i], (Double) mStringArray[i + 1]);
-            target.setLatitude(currentMarker.latitude);
-            target.setLongitude(currentMarker.longitude);
-            Log.i(TAG,Double.toString(mCurrentLocation.distanceTo(target)));
-            if (mCurrentLocation.distanceTo(target) < 10) {
+            ArrayList arrayList = dbHelper.getAllMarkers();
+            Location target = new Location("target");
+            Object[] mStringArray = arrayList.toArray();
 
-                Log.i(TAG, "ek baar aa jani chahiye notification");
+            for (int i = 0; i < mStringArray.length; i = i + 2) {
+                //Log.d(TAG,(String)mStringArray[i]);
+                currentMarker = new LatLng((Double) mStringArray[i], (Double) mStringArray[i + 1]);
+                target.setLatitude(currentMarker.latitude);
+                target.setLongitude(currentMarker.longitude);
+                Log.i(TAG, Double.toString(mCurrentLocation.distanceTo(target)));
+                if (mCurrentLocation.distanceTo(target) < val) {
+
+                    Log.i(TAG, "ek baar aa jani chahiye notification");
 //                NotificationCompat.Builder mBuilder =
 //                        new NotificationCompat.Builder(this)
 //                                .setSmallIcon(R.mipmap.logo)
@@ -412,9 +418,10 @@ public class MainActivity extends AppCompatActivity implements
 //                                .setDefaults(Notification.DEFAULT_SOUND)
 //                                .setAutoCancel(true);
 
-                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-                r.play();
+                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                    r.play();
+                }
             }
         }
 
@@ -478,8 +485,8 @@ public class MainActivity extends AppCompatActivity implements
             public void onMapLongClick(LatLng latLng) {
 
                 Intent MarkerFormIntent = new Intent(MainActivity.this, MarkerForm.class );
-                MarkerFormIntent.putExtra("latitude", latLng.latitude);
-                MarkerFormIntent.putExtra("longitude", latLng.longitude);
+                MarkerFormIntent.putExtra("latitude", location.getLatitude());
+                MarkerFormIntent.putExtra("longitude", location.getLongitude());
                 startActivity(MarkerFormIntent);
 
 
@@ -525,10 +532,41 @@ public class MainActivity extends AppCompatActivity implements
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent settings = new Intent(this, SettingsActivity.class);
+            startActivity(settings);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public static class PrefsFragment extends PreferenceFragment {
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            // Load the preferences from an XML resource
+            addPreferencesFromResource(R.xml.preferences);
+        }
+
+
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View view = super.onCreateView(inflater, container, savedInstanceState);
+            if (view != null) {
+                view.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+            }
+
+            return view;
+        }
+
+
+//        public void onBackPressed() {
+//
+//            Intent backPressedIntent = new Intent(, MainActivity.class);
+//            startActivity(backPressedIntent);
+//        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -546,10 +584,7 @@ public class MainActivity extends AppCompatActivity implements
         if (id == R.id.nav_home) {
             startActivity(new Intent(this,MainActivity.class));
 
-//            frag = MainActivity.class;
-//            fragmentTransaction.replace(R.id.content_main, frag);
-//            fragmentTransaction.commit();
-            // Handle the camera action
+//
         } else if (id == R.id.nav_about) {
             frag = AboutFragment.newInstance();
             fragmentTransaction.replace(R.id.content_main, frag);
@@ -563,6 +598,9 @@ public class MainActivity extends AppCompatActivity implements
 //
         } else if (id == R.id.nav_settings) {
 
+//            frag = new PrefsFra
+            getFragmentManager().beginTransaction().replace(android.R.id.content,
+                    new PrefsFragment()).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -47,9 +47,11 @@
         <activity android:name=".MarkerForm" />
         <activity android:name=".MarkedMarker" />
         <activity android:name=".MainActivity" />
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
+        <!--<activity android:name=".SettingsActivity"></activity>-->
     </application>
 
 </manifest>
