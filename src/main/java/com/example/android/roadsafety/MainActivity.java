@@ -75,6 +75,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements
         int resultCode = googleAPI.isGooglePlayServicesAvailable(this);
         if (resultCode == ConnectionResult.SUCCESS) {
             mGoogleApiClient.connect();
-            Log.i(TAG, Boolean.toString(mGoogleApiClient.isConnected()));
+            //Log.i(TAG, Boolean.toString(mGoogleApiClient.isConnected()));
         } else {
             googleAPI.getErrorDialog(this, resultCode, RQS_GooglePlayServices);
         }
@@ -198,8 +199,8 @@ public class MainActivity extends AppCompatActivity implements
         mapFragment.getMapAsync(this);
 
         SharedPreferences mySharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        isChecked = mySharedPreferences.getBoolean("isChecked",false);
-       //distance = (EditText) mySharedPreferences.getStringSet("distance",null);
+        isChecked = mySharedPreferences.getBoolean("sendNotifications",true);
+//       distance = (EditText) mySharedPreferences.getStringSet("distance",null);
 //        val = Integer.parseInt( distance.getText().toString() );
 
 
@@ -322,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements
                 .addApi(LocationServices.API)
                 .build();
 
-        Log.i(TAG, Boolean.toString(mGoogleApiClient.isConnected()));
+        //Log.i(TAG, Boolean.toString(mGoogleApiClient.isConnected()));
     }
 
 
@@ -397,6 +398,7 @@ public class MainActivity extends AppCompatActivity implements
         mCurrentLocation = location;
         updateMap(mCurrentLocation);
 
+
         if(isChecked == true) {
 
             ArrayList arrayList = dbHelper.getAllMarkers();
@@ -437,6 +439,7 @@ public class MainActivity extends AppCompatActivity implements
         //Log.i(TAG, "mapready");
         mapReady = true;
         mMap = map;
+        //LatLng marker;
 
         ArrayList arrayList = dbHelper.getAllMarkers();
 
@@ -450,8 +453,43 @@ public class MainActivity extends AppCompatActivity implements
 
         }
 
-
-
+//         marker = new LatLng(22.731489, 75.854569);
+//         mMap.addMarker(new MarkerOptions().position(marker));
+//
+//        marker = new LatLng(22.730391, 75.856275);
+//        mMap.addMarker(new MarkerOptions().position(marker));
+//
+//        marker = new LatLng(22.718460, 75.857622);
+//        mMap.addMarker(new MarkerOptions().position(marker));
+//
+//        marker = new LatLng(22.702678, 75.875933);
+//        mMap.addMarker(new MarkerOptions().position(marker));
+//
+//          marker = new LatLng(22.704831, 75.867216);
+//          mMap.addMarker(new MarkerOptions().position(marker));
+//
+//         marker = new LatLng(22.734926, 75.904768);
+//         mMap.addMarker(new MarkerOptions().position(marker));
+//
+//         marker = new LatLng(22.745018, 75.901546);
+//         mMap.addMarker(new MarkerOptions().position(marker));
+//
+//         marker = new LatLng(22.675149, 75.829556);
+//         mMap.addMarker(new MarkerOptions().position(marker));
+//
+//
+//          marker = new LatLng(22.675149, 75.829556);
+//          mMap.addMarker(new MarkerOptions().position(marker));
+//
+//         marker = new LatLng(22.686862, 75.816585);
+//         mMap.addMarker(new MarkerOptions().position(marker));
+//
+//         marker = new LatLng(22.670187, 75.835227);
+//         mMap.addMarker(new MarkerOptions().position(marker));
+//
+//         marker = new LatLng(22.728693, 75.859333);
+//         mMap.addMarker(new MarkerOptions().position(marker));
+//
 
     }
 
@@ -491,6 +529,8 @@ public class MainActivity extends AppCompatActivity implements
 
                 Intent MarkerFormIntent = new Intent(MainActivity.this, MarkerForm.class );
 
+                MarkerFormIntent.putExtra("latitude", latLng.latitude);
+                MarkerFormIntent.putExtra("longitude", latLng.longitude);
                 startActivity(MarkerFormIntent);
 
 

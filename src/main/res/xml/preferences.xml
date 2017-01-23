@@ -24,7 +24,7 @@
     <CheckBoxPreference android:title="Notifications"
         android:defaultValue="false"
         android:summary="This option if selected will allow the application to send notifications."
-        android:key="sendNotifications" />
+        android:key="@string/sendNotifications" />
 
     </PreferenceCategory>
 
